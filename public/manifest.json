@@ -1,0 +1,17 @@
+{
+    "name": "Rukun Tetangga",
+    "short_name": "RT",
+    "start_url": "/index.php",
+    "background_color": "#6777ef",
+    "description": "Aplikasi RT",
+    "display": "fullscreen",
+    "theme_color": "#6777ef",
+    "icons": [
+        {
+            "src": "images/logo.PNG",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ]
+}
