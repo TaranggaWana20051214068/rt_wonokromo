@@ -190,7 +190,7 @@
 
                                 <a class="ms-1" x-data="" href="#"
                                     x-on:click.prevent="$dispatch('open-modal', 'view-ktp-modal')">
-                                    <img src="{{ asset('storage/dokumen_pendukung/' . $penduduk->dokumen_pendukung) }}"
+                                    <img src="{{ Storage::url('dokumen_pendukung/' . $penduduk->dokumen_pendukung) }}"
                                         class="img-fluid" alt="Foto KTP" width="100" height="70">
                                 </a>
                             </div>

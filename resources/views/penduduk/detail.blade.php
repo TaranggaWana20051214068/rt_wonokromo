@@ -123,7 +123,7 @@
                                             {{ __('Foto KTP') }}
                                         </h2>
                                         <div class="mt-4">
-                                            <img src="{{ asset('storage/dokumen_pendukung/' . $penduduk->dokumen_pendukung) }}"
+                                            <img src="{{ Storage::url('dokumen_pendukung/' . $penduduk->dokumen_pendukung) }}"
                                                 class="img-fluid" alt="Foto KTP">
                                         </div>
                                     </div>
