@@ -2,10 +2,10 @@
 <link rel="preconnect" href="https://fonts.bunny.net">
 <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-{{-- <link rel="shortcut icon" href="{{ asset('images/assettguardLogo.svg') }}"> --}}
+<link rel="shortcut icon" href="{{ asset('images/logo.png') }}">
 
 <!-- PWA  -->
-<meta name="theme-color" content="#6777ef" />
+<meta name="theme-color" content="#ffffff" />
 <link rel="apple-touch-icon" href="{{ asset('logo.png') }}">
 <link rel="manifest" href="{{ asset('/manifest.json') }}">
 

@@ -30,6 +30,18 @@
                             <x-input-error class="mt-2" :messages="$errors->get('nama_lengkap')" />
                         </div>
                         <div>
+                            <x-input-label for="keluarga" :value="__('Keluarga')" />
+                            <select id="keluarga" class="form-control" name="keluarga" required>
+                                <option selected disabled>Pilih keluarga</option>
+                                @foreach ($keluargas as $kk)
+                                    <option value="{{ $kk }}" {{ old('keluarga') == $kk ? 'selected' : '' }}>
+                                        {{ $kk }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <x-input-error class="mt-2" :messages="$errors->get('umur_kategori')" />
+                        </div>
+                        <div>
                             <x-input-label for="nik" :value="__('NIK')" />
                             <x-text-input id="nik" class="form-control" type="text" name="nik"
                                 :value="old('nik')" required />

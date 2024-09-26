@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\UserController;
 use App\Models\Asset;
+use App\Models\Category;
 use App\Models\Penduduk;
 use App\Models\posyandu;
 use Illuminate\Support\Facades\Route;
@@ -43,10 +44,12 @@ Route::get('/dashboard', function () {
     $pendudukCount = Penduduk::count();
     $posyanduCount = posyandu::count();
     $assetCount = Asset::count();
+    $keluargaCount = Category::count();
     $data = [
         'pendudukCount' => $pendudukCount,
         'posyanduCount' => $posyanduCount,
         'inventoryCount' => $assetCount,
+        'keluargaCount' => $keluargaCount,
     ];
     return view('dashboard', compact('data'));
     ;

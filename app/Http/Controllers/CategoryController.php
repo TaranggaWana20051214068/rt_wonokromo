@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -50,11 +51,17 @@ class CategoryController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'kk' => 'required|image|mimes:jpeg,png,jpg|max:2048',
         ]);
+        if ($request->hasFile('kk')) {
 
+            // Store new file
+            $fileName = time() . '_' . $request->name . '.' . $request->file('kk')->getClientOriginalExtension();
+            $request->file('kk')->storeAs('/dokumen_pendukung', $fileName);
+            $validatedData['kk'] = $fileName;
+        }
         $category = Category::create($validatedData);
-        SessionHelper::setSuccessMessage('Category created successfuly');
+        SessionHelper::setSuccessMessage('Kartu Keluarga berhasil ditambahkan.');
         return redirect()->back();
     }
 
@@ -78,14 +85,25 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category): RedirectResponse
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'kk' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
-        $category->update($request->only(['name', 'description']));
+        if ($request->hasFile('kk')) {
+            // Delete old file if exists
+            if ($category->kk) {
+                Storage::delete('dokumen_pendukung/' . $category->kk);
+            }
 
-        SessionHelper::setSuccessMessage('Category updated successfuly');
-        return Redirect::route('category.index')->with('success', 'Category updated successfuly');
+            // Store new file
+            $fileName = time() . '_' . $request->name . '.' . $request->file('kk')->getClientOriginalExtension();
+            $request->file('kk')->storeAs('/dokumen_pendukung', $fileName);
+            $validatedData['kk'] = $fileName;
+        }
+        $category->update($validatedData);
+
+        SessionHelper::setSuccessMessage('Kartu Keluarga berhasil diperbarui.');
+        return Redirect::route('category.index')->with('success', 'Kartu Keluarga berhasil diperbarui.');
     }
     /**
      * Deletes a category from the database.
@@ -96,11 +114,17 @@ class CategoryController extends Controller
     public function destroy(Request $request): JsonResponse
     {
         try {
-            $query = Category::findOrFail($request->id);
-            $isDeleted = $query->delete();
+            $category = Category::findOrFail($request->id);
+
+            // Delete the associated file
+            if ($category->kk) {
+                Storage::delete('dokumen_pendukung/' . $category->kk);
+            }
+
+            $isDeleted = $category->delete();
 
             if ($isDeleted) {
-                SessionHelper::setSuccessMessage('Data deleted successfully.');
+                SessionHelper::setSuccessMessage('Data berhasil dihapus.');
             } else {
                 SessionHelper::setErrorMessage('Terjadi kesalahan, gagal menghapus data.');
             }
@@ -110,4 +134,5 @@ class CategoryController extends Controller
 
         return response()->json(['success' => RouteServiceProvider::CATEGORY]);
     }
+
 }

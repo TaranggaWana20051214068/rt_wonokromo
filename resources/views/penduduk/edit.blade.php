@@ -21,7 +21,7 @@
                         </p>
                     </header>
                     <form method="post" action="{{ route('penduduk.update', ['penduduk' => $penduduk->id]) }}"
-                        class="mt-6 space-y-6" enctype="multipart/form-data">
+                        class="mt-6 space-y-6">
                         @csrf
                         @method('patch')
                         <div>
@@ -30,7 +30,19 @@
                                 :value="old('nama_lengkap', $penduduk->nama_lengkap)" required autofocus />
                             <x-input-error class="mt-2" :messages="$errors->get('nama_lengkap')" />
                         </div>
-
+                        <div>
+                            <x-input-label for="keluarga" :value="__('Keluarga')" />
+                            <select id="keluarga" class="form-control" name="keluarga" required>
+                                <option selected disabled>Pilih keluarga</option>
+                                @foreach ($keluarga as $kk)
+                                    <option value="{{ $kk }}"
+                                        {{ old('keluarga', $penduduk->keluarga) == $kk ? 'selected' : '' }}>
+                                        {{ $kk }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <x-input-error class="mt-2" :messages="$errors->get('umur_kategori')" />
+                        </div>
                         <div>
                             <x-input-label for="nik" :value="__('NIK')" />
                             <x-text-input id="nik" class="form-control" type="text" name="nik"
@@ -177,41 +189,8 @@
                             <x-input-error class="mt-2" :messages="$errors->get('dokumen_pendukung')" />
                         </div> --}}
 
-                        <div class="custom-file">
-                            <input type="file" class="custom-file-input" name="dokumen_pendukung"
-                                id="dokumen_pendukung" accept="image/*">
-                            <label class="custom-file-label" for="dokumen_pendukung">Pilih Foto KTP</label>
-                            <small class="text-muted">max 2mb</small>
-                            <x-input-error class="mt-2" :messages="$errors->get('dokumen_pendukung')" />
-                        </div>
 
-                        @if ($penduduk->dokumen_pendukung)
-                            <div>
 
-                                <a class="ms-1" x-data="" href="#"
-                                    x-on:click.prevent="$dispatch('open-modal', 'view-ktp-modal')">
-                                    <img src="{{ Storage::url('dokumen_pendukung/' . $penduduk->dokumen_pendukung) }}"
-                                        class="img-fluid" alt="Foto KTP" width="100" height="70">
-                                </a>
-                            </div>
-                            <x-modal name="view-ktp-modal" maxWidth="md">
-                                <div class="p-6">
-                                    <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                                        {{ __('Foto KTP') }}
-                                    </h2>
-                                    <div class="mt-4">
-                                        <img src="{{ asset('storage/dokumen_pendukung/' . $penduduk->dokumen_pendukung) }}"
-                                            class="img-fluid" alt="Foto KTP">
-                                    </div>
-                                </div>
-                                <div
-                                    class="flex items-center justify-end p-6 border-t border-gray-200 dark:border-gray-600">
-                                    <x-secondary-button x-on:click="$dispatch('close-modal', 'view-ktp-modal')">
-                                        {{ __('Tutup') }}
-                                    </x-secondary-button>
-                                </div>
-                            </x-modal>
-                        @endif
                         <div>
                             <x-input-label for="status_aktif" :value="__('Status Aktif')" />
                             <select id="status_aktif" class="form-control" name="status_aktif" required>

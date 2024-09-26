@@ -30,7 +30,7 @@ class Penduduk extends Model
         'umur_kategori',
         'status_kesejahteraan',
         'keterangann_tidak_aktif',
-        'dokumen_pendukung',
+        'keluarga',
     ];
 
     protected $casts = [

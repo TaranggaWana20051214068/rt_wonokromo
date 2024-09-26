@@ -25,10 +25,10 @@
                     <x-nav-link :href="route('assets.index')" :active="request()->routeIs('assets.index')">
                         {{ __('Inventaris') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.index')">
+                        {{ __('Dokumen') }}
+                    </x-nav-link>
                     @if (Auth::user()->id == '1')
-                        <x-nav-link :href="route('category.index')" :active="request()->routeIs('category.index')">
-                            {{ __('Category') }}
-                        </x-nav-link>
                         <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
                             {{ __('User') }}
                         </x-nav-link>
@@ -124,10 +124,10 @@
                     <x-responsive-nav-link :href="route('assets.index')" :active="request()->routeIs('assets.index')">
                         {{ __('Inventaris') }}
                     </x-responsive-nav-link>
+                    <x-responsive-nav-link :href="route('category.index')" :active="request()->routeIs('category.index')">
+                        {{ __('Dokumen') }}
+                    </x-responsive-nav-link>
                     @if (Auth::user()->id == '1')
-                        <x-responsive-nav-link :href="route('category.index')" :active="request()->routeIs('category.index')">
-                            {{ __('Category') }}
-                        </x-responsive-nav-link>
                         <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
                             {{ __('User') }}
                         </x-responsive-nav-link>

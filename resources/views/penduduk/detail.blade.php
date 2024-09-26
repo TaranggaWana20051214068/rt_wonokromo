@@ -107,7 +107,7 @@
                                     <div class="col-6 font-weight-bold">{{ $penduduk->status_kesejahteraan }}</div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-5">Foto KTP</div>
+                                    <div class="col-5">Kartu Keluarga</div>
                                     <div class="col-1">:</div>
                                     <div class="col-6 font-weight-bold">
                                         <x-secondary-button class="ms-1" x-data=""
@@ -120,10 +120,10 @@
                                 <x-modal name="view-ktp-modal" maxWidth="md">
                                     <div class="p-6">
                                         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                                            {{ __('Foto KTP') }}
+                                            {{ __('Kartu Keluarga') }}
                                         </h2>
                                         <div class="mt-4">
-                                            <img src="{{ Storage::url('dokumen_pendukung/' . $penduduk->dokumen_pendukung) }}"
+                                            <img src="{{ Storage::url('dokumen_pendukung/' . $dokumen) }}"
                                                 class="img-fluid" alt="Foto KTP">
                                         </div>
                                     </div>

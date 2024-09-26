@@ -28,7 +28,7 @@
                     </header>
 
                     <form method="post" action="{{ route('category.update', ['category' => $category->id]) }}"
-                        class="mt-6 space-y-6">
+                        class="mt-6 space-y-6" enctype="multipart/form-data">
                         @csrf
                         @method('patch')
                         <div>
@@ -37,11 +37,37 @@
                                 :value="old('name', $category->name)" autofocus />
                             <x-input-error class="mt-2" :messages="$errors->get('name')" />
                         </div>
-                        <div>
-                            <x-input-label for="description" :value="__('Descripsi')" />
-                            <textarea id="description" name="description" class="form-control">{{ old('description', $category->description) }}</textarea>
-                            <x-input-error class="mt-2" :messages="$errors->get('description')" />
+                        <div class="mt-6">
+                            <x-input-label for="kk" :value="__('KK')" />
+                            <input type="file" id="kk" name="kk" class="form-control" accept="image/*">
+                            <br>
+                            <small class="text-muted">max 2mb</small>
+                            <x-input-error class="mt-2" :messages="$errors->get('kk')" />
                         </div>
+                        <div>
+                            <a class="ms-1" x-data="" href="#"
+                                x-on:click.prevent="$dispatch('open-modal', 'view-ktp-modal')">
+                                <img src="{{ Storage::url('dokumen_pendukung/' . $category->kk) }}"" class="img-fluid"
+                                    alt="Foto KK" width="100" height="70">
+                            </a>
+                        </div>
+                        <x-modal name="view-ktp-modal" maxWidth="md">
+                            <div class="p-6">
+                                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                                    {{ __('Foto KK') }}
+                                </h2>
+                                <div class="mt-4">
+                                    <img src="{{ Storage::url('dokumen_pendukung/' . $category->kk) }}""
+                                        class="img-fluid" alt="Foto KK">
+                                </div>
+                            </div>
+                            <div
+                                class="flex items-center justify-end p-6 border-t border-gray-200 dark:border-gray-600">
+                                <x-secondary-button x-on:click="$dispatch('close-modal', 'view-ktp-modal')">
+                                    {{ __('Tutup') }}
+                                </x-secondary-button>
+                            </div>
+                        </x-modal>
                         <div class="flex items-center gap-4">
                             <x-secondary-button onclick="window.history.back()">
                                 {{ __('Kembali') }}

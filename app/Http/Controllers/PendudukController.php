@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Penduduk;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -46,6 +47,7 @@ class PendudukController extends Controller
      */
     public function create(): View
     {
+        $keluarga = Category::pluck('name');
         return view('penduduk.create', [
             'title' => 'Tambah Data Penduduk',
             'agamas' => ['Islam', 'Kristen', 'Katolik', 'Hindu', 'Buddha', 'Konghucu'],
@@ -53,6 +55,7 @@ class PendudukController extends Controller
             'status_perkawinans' => ['Belum Kawin', 'Kawin', 'Cerai Hidup', 'Cerai Mati'],
             'umur_kategoris' => ['Kanak-kanak', 'Remaja', 'Dewasa', 'Lansia'],
             'status_kesejahteraans' => ['Sejahtera', 'Pra-sejahtera', 'Rentan ekonomi', 'Penerima bantuan sosial'],
+            'keluargas' => $keluarga,
         ]);
     }
 
@@ -80,6 +83,7 @@ class PendudukController extends Controller
             'status_dalam_keluarga' => 'nullable|string|max:255',
             'umur_kategori' => 'required|in:Kanak-kanak,Remaja,Dewasa,Lansia',
             'status_kesejahteraan' => 'required|in:Sejahtera,Pra-sejahtera,Rentan ekonomi,Penerima bantuan sosial',
+            'keluarga' => 'required|string|max:255',
         ]);
         $validatedData['status_aktif'] = true;
 
@@ -97,9 +101,12 @@ class PendudukController extends Controller
      */
     public function show(Penduduk $penduduk): View
     {
+        $category = Category::where('name', $penduduk->keluarga)->first();
+        $dokumen = $category['kk'];
         return view('penduduk.detail', [
             'title' => 'Detail Penduduk',
             'penduduk' => $penduduk,
+            'dokumen' => $dokumen,
         ]);
     }
 
@@ -111,6 +118,7 @@ class PendudukController extends Controller
      */
     public function edit(Penduduk $penduduk): View
     {
+        $keluarga = Category::pluck('name');
         return view('penduduk.edit', [
             'title' => 'Perbarui Data Penduduk',
             'penduduk' => $penduduk,
@@ -119,6 +127,7 @@ class PendudukController extends Controller
             'status_perkawinans' => ['Belum Kawin', 'Kawin', 'Cerai Hidup', 'Cerai Mati'],
             'umur_kategoris' => ['Kanak-kanak', 'Remaja', 'Dewasa', 'Lansia'],
             'status_kesejahteraans' => ['Sejahtera', 'Pra-sejahtera', 'Rentan ekonomi', 'Penerima bantuan sosial'],
+            'keluarga' => $keluarga,
         ]);
     }
 
@@ -150,7 +159,7 @@ class PendudukController extends Controller
             'status_kesejahteraan' => 'required|in:Sejahtera,Pra-sejahtera,Rentan ekonomi,Penerima bantuan sosial',
             'status_aktif' => 'boolean',
             'keterangan_tidak_aktif' => 'nullable|string',
-            'dokumen_pendukung' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'keluarga' => 'required|string',
         ]);
 
         if ($request->status_aktif == 0) {
@@ -160,17 +169,7 @@ class PendudukController extends Controller
             }
             ;
         }
-        if ($request->hasFile('dokumen_pendukung')) {
-            // Delete old file if exists
-            if ($penduduk->dokumen_pendukung) {
-                Storage::delete('dokumen_pendukung/' . $penduduk->dokumen_pendukung);
-            }
 
-            // Store new file
-            $fileName = time() . '_' . $penduduk->nama_lengkap . '.' . $request->file('dokumen_pendukung')->getClientOriginalExtension();
-            $request->file('dokumen_pendukung')->storeAs('/dokumen_pendukung', $fileName);
-            $validatedData['dokumen_pendukung'] = $fileName;
-        }
         $updated = $penduduk->update($validatedData);
         if (!$updated) {
             SessionHelper::setErrorMessage('Terjadi kesalahan, gagal mengupdate data.');
