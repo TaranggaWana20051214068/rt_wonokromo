@@ -53,6 +53,15 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    // handle file surce
+    Route::get('storage/{filename}', function ($filename) {
+        $path = storage_path('app/public/' . $filename);
+        if (!File::exists($path)) {
+            abort(404);
+        }
+        return response()->file($path);
+    })->where('filename', '.*');
+
     // users
     Route::resource('/users', UserController::class);
     Route::delete('/users', [UserController::class, 'destroy'])->name('users.destroy');
