@@ -27,7 +27,7 @@ return new class extends Migration {
             $table->string('status_dalam_keluarga')->nullable();
             $table->boolean('status_aktif')->default(true);
             $table->string('keterangan_tidak_aktif')->nullable();
-            $table->string('keluarga')->nullable();
+            $table->foreignId('category_id')->constrained();
             $table->enum('umur_kategori', ['Kanak-kanak', 'Remaja', 'Dewasa', 'Lansia']);
             $table->enum('status_kesejahteraan', ['Sejahtera', 'Pra-sejahtera', 'Rentan ekonomi', 'Penerima bantuan sosial']);
             $table->timestamps();

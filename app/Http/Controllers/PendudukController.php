@@ -47,7 +47,7 @@ class PendudukController extends Controller
      */
     public function create(): View
     {
-        $keluarga = Category::pluck('name');
+        $keluarga = Category::all();
         return view('penduduk.create', [
             'title' => 'Tambah Data Penduduk',
             'agamas' => ['Islam', 'Kristen', 'Katolik', 'Hindu', 'Buddha', 'Konghucu'],
@@ -83,7 +83,7 @@ class PendudukController extends Controller
             'status_dalam_keluarga' => 'nullable|string|max:255',
             'umur_kategori' => 'required|in:Kanak-kanak,Remaja,Dewasa,Lansia',
             'status_kesejahteraan' => 'required|in:Sejahtera,Pra-sejahtera,Rentan ekonomi,Penerima bantuan sosial',
-            'keluarga' => 'required|string|max:255',
+            'category_id' => 'required|int|max:255',
         ]);
         $validatedData['status_aktif'] = true;
 
@@ -101,8 +101,8 @@ class PendudukController extends Controller
      */
     public function show(Penduduk $penduduk): View
     {
-        $category = Category::where('name', $penduduk->keluarga)->first();
-        $dokumen = $category['kk'];
+        $category = $penduduk->category;
+        $dokumen = $category ? $category->kk : null;
         return view('penduduk.detail', [
             'title' => 'Detail Penduduk',
             'penduduk' => $penduduk,
@@ -118,7 +118,7 @@ class PendudukController extends Controller
      */
     public function edit(Penduduk $penduduk): View
     {
-        $keluarga = Category::pluck('name');
+        $keluarga = Category::all();
         return view('penduduk.edit', [
             'title' => 'Perbarui Data Penduduk',
             'penduduk' => $penduduk,
@@ -159,7 +159,7 @@ class PendudukController extends Controller
             'status_kesejahteraan' => 'required|in:Sejahtera,Pra-sejahtera,Rentan ekonomi,Penerima bantuan sosial',
             'status_aktif' => 'boolean',
             'keterangan_tidak_aktif' => 'nullable|string',
-            'keluarga' => 'required|string',
+            'category_id' => 'required|int|max:255',
         ]);
 
         if ($request->status_aktif == 0) {

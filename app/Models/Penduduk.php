@@ -30,7 +30,7 @@ class Penduduk extends Model
         'umur_kategori',
         'status_kesejahteraan',
         'keterangann_tidak_aktif',
-        'keluarga',
+        'category_id',
     ];
 
     protected $casts = [
@@ -46,5 +46,10 @@ class Penduduk extends Model
                 ->orWhere('umur_kategori', 'like', "%$search%")
                 ->orWhere('status_kesejahteraan', 'like', "%$search%");
         });
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
     }
 }

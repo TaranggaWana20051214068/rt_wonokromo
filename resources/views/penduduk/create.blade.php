@@ -30,12 +30,13 @@
                             <x-input-error class="mt-2" :messages="$errors->get('nama_lengkap')" />
                         </div>
                         <div>
-                            <x-input-label for="keluarga" :value="__('Keluarga')" />
-                            <select id="keluarga" class="form-control" name="keluarga" required>
+                            <x-input-label for="category_id" :value="__('Keluarga')" />
+                            <select id="category_id" class="form-control" name="category_id" required>
                                 <option selected disabled>Pilih keluarga</option>
                                 @foreach ($keluargas as $kk)
-                                    <option value="{{ $kk }}" {{ old('keluarga') == $kk ? 'selected' : '' }}>
-                                        {{ $kk }}
+                                    <option value="{{ $kk->id }}"
+                                        {{ old('category_id') == $kk->id ? 'selected' : '' }}>
+                                        {{ $kk->name }}
                                     </option>
                                 @endforeach
                             </select>

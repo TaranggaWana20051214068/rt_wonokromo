@@ -123,8 +123,12 @@
                                             {{ __('Kartu Keluarga') }}
                                         </h2>
                                         <div class="mt-4">
-                                            <img src="{{ Storage::url('dokumen_pendukung/' . $dokumen) }}"
-                                                class="img-fluid" alt="Foto KTP">
+                                            @if ($dokumen != null)
+                                                <img src="{{ Storage::url('dokumen_pendukung/' . $dokumen) }}"
+                                                    class="img-fluid" alt="Foto KTP">
+                                            @else
+                                                <p>File tidak tersedia</p>
+                                            @endif
                                         </div>
                                     </div>
                                     <div
