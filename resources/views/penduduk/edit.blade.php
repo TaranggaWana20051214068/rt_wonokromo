@@ -36,7 +36,7 @@
                                 <option selected disabled>Pilih keluarga</option>
                                 @foreach ($keluarga as $kk)
                                     <option value="{{ $kk->id }}"
-                                        {{ old('category_id', $penduduk->keluarga) == $kk->id ? 'selected' : '' }}>
+                                        {{ old('category_id', $penduduk->category_id) == $kk->id ? 'selected' : '' }}>
                                         {{ $kk->name }}
                                     </option>
                                 @endforeach
